@@ -1,13 +1,33 @@
-#!/usr/bin/env bash
-#First argument value is read by the variable $1 which will contain the filename for reading
+#!/usr/bin/python3
+"""Module that factorize as many numbers as possible
+ into a product of two smaller numbers."""
+from sys import argv
 
-FILE=$1
 
-# If the file exists in the current location then while loop will read the file line by line
+def factorize(value):
+    """"print a simple descomposition of an integer > 1"""
+    i = 2
 
-while read NUMBERS;
-do
-    factors=($(factor $NUMBERS))
-    echo "$NUMBERS=$(($NUMBERS/${factors[1]}))*${factors[1]}"
-done < $FILE
-	
+    if value < 2:
+        return
+    print()
+    print(value, "<- value-bef")
+    while value % i:
+        i += 1
+    print("{:.0f}={:.0f}*{:.0f}".format(value, value / i, i))
+    print(value, "<- value-aft")
+    print()
+
+if len(argv) != 2:
+    exit()
+
+try:
+    with open(argv[1]) as file:
+        line = file.readline()
+
+        while line != "":
+            value = int(line.split('\n')[0])
+            factorize(value)
+            line = file.readline()
+except:
+    pass
